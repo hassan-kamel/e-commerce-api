@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-dotenv.config({ path: 'config.env' });
+dotenv.config({ path: '.env' });
 
 // Database Connection
 export const connection = () =>
