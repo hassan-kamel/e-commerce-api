@@ -1,14 +1,19 @@
 import express from 'express';
+import categoryRouter from './routes/category.js';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import { connection } from './config/database.js';
 
+// Configuration
 dotenv.config({ path: 'config.env' });
-
-mongoose.connect(process.env.DB_URI).then((conn) => {
-  console.log({ connection: conn.connection.host });
-});
+connection();
+// Express
 const app = express();
 
+// Middleware
+app.use(express.json());
+
+// Router
+app.use('/api/category', categoryRouter);
 app.get('/', (req, res) => {
   res.send('hello world');
 });
