@@ -17,6 +17,6 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: node src/index.js
+      - run: node index
 #       - run: npm test
 #       - run: npm run build
