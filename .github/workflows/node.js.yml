@@ -29,6 +29,8 @@ jobs:
     - run: npm ci
 #     - run: npm audit fix --force
 #     - run: npm run build --if-present
-    - run: node ./src/index.js
+    - name: Run start
+      working-directory: ./src
+      run: node index.js
     
 #     - run: npm test
