@@ -9,9 +9,12 @@ import ErrorApi from '../utils/error.js';
  * @access  public
  */
 export const getCategories = asyncHandler(async (req, res, next) => {
-  const categories = await Category.find({});
+  const page = req.query.page * 1 || 1;
+  const limit = req.query.limit * 1 || 5;
+  const skip = (page - 1) * limit;
+  const categories = await Category.find({}).skip(skip).limit(limit);
   console.log('categories: ', categories);
-  res.status(200).json({ result: categories.length, data: categories });
+  res.status(200).json({ result: categories.length, page, data: categories });
 });
 /**
  * @desc    Create New Category

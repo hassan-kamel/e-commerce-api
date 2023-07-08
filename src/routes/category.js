@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import subCategoryRouter from './subCategory.js';
 import {
   createCategory,
   deleteCategory,
@@ -14,6 +15,8 @@ import {
 } from '../validations/category.js';
 
 const router = Router();
+
+router.use('/:categoryId/subcategory', subCategoryRouter);
 
 router
   .route('/')

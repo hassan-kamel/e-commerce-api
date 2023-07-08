@@ -1,6 +1,7 @@
 import express from 'express';
 import categoryRouter from './routes/category.js';
 import supCategoryRouter from './routes/subCategory.js';
+import brandRouter from './routes/brand.js';
 import dotenv from 'dotenv';
 import { connection } from './config/database.js';
 import ErrorApi from './utils/error.js';
@@ -17,6 +18,7 @@ app.use(express.json());
 // Router
 app.use('/api/category', categoryRouter);
 app.use('/api/subcategory', supCategoryRouter);
+app.use('/api/brand', brandRouter);
 app.get('/', (req, res) => {
   res.send('hello world');
 });

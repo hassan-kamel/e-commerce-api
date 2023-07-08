@@ -9,9 +9,17 @@ import ErrorApi from '../utils/error.js';
  * @access  public
  */
 export const getSubCategories = asyncHandler(async (req, res, next) => {
-  const subCategories = await SubCategory.find({});
-  // console.log('categories: ', categories);
-  res.status(200).json({ result: subCategories.length, data: subCategories });
+  const page = req.query.page * 1 || 1;
+  const limit = req.query.limit * 1 || 5;
+  const skip = (page - 1) * limit;
+  const filterObject = { category: req.params.categoryId } || {};
+  console.log('filterObject: ', filterObject);
+  const subCategories = await SubCategory.find(filterObject)
+    .skip(skip)
+    .limit(limit);
+  res
+    .status(200)
+    .json({ results: subCategories.length, page, data: subCategories });
 });
 
 /**
@@ -57,7 +65,7 @@ export const updateSubCategory = asyncHandler(async (req, res, next) => {
   if (!subCategory) {
     return next(new ErrorApi(`No category for this id ${id}`, 404));
   }
-  res.status(200).json({ data: subCategory });
+  res.status(200).json({ data: subCategories });
 });
 /**
  * @desc    Remove Specific Category

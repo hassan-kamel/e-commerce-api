@@ -6,27 +6,23 @@ import {
   getSubCategory,
   updateSubCategory,
 } from '../services/subCategory.js';
-// import {
-//   createCategory,
-//   deleteCategory,
-//   getCategories,
-//   getCategory,
-//   updateCategory,
-// } from '../services/category.js';
-// import {
-//   createCategoryValidator,
-//   deleteCategoryValidator,
-//   getCategoryValidator,
-//   updateCategoryValidator,
-// } from '../validations/category.js';
+import {
+  createSubCategoryValidator,
+  deleteSubCategoryValidator,
+  getSubCategoryValidator,
+  updateSubCategoryValidator,
+} from '../validations/subCategory.js';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-router.route('/').get(getSubCategories).post(createSubCategory);
+router
+  .route('/')
+  .get(getSubCategories)
+  .post(createSubCategoryValidator, createSubCategory);
 router
   .route('/:id')
-  .get(getSubCategory)
-  .put(updateSubCategory)
-  .delete(deleteSubCategory);
+  .get(getSubCategoryValidator, getSubCategory)
+  .put(updateSubCategoryValidator, updateSubCategory)
+  .delete(deleteSubCategoryValidator, deleteSubCategory);
 
 export default router;
