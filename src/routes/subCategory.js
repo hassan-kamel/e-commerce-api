@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import {
+  createFilterObj,
   createSubCategory,
   deleteSubCategory,
   getSubCategories,
   getSubCategory,
+  setCategoryIdToBody,
   updateSubCategory,
 } from '../services/subCategory.js';
 import {
@@ -17,8 +19,8 @@ const router = Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(getSubCategories)
-  .post(createSubCategoryValidator, createSubCategory);
+  .get(createFilterObj, getSubCategories)
+  .post(setCategoryIdToBody, createSubCategoryValidator, createSubCategory);
 router
   .route('/:id')
   .get(getSubCategoryValidator, getSubCategory)

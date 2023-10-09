@@ -1,5 +1,6 @@
 import { check } from 'express-validator';
 import validation from '../middleware/validate.js';
+import slugify from 'slugify';
 
 export const getSubCategoryValidator = [
   check('id').isMongoId().withMessage('Invalid subCategory id format'),
@@ -11,7 +12,11 @@ export const createSubCategoryValidator = [
     .notEmpty()
     .withMessage('SubCategory name is required')
     .isLength({ max: 32, min: 3 })
-    .withMessage('SubCategory name length must be 3-32 chars'),
+    .withMessage('SubCategory name length must be 3-32 chars')
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
   check('category')
     .notEmpty()
     .withMessage('subCategory must be belong to category')
@@ -26,7 +31,11 @@ export const updateSubCategoryValidator = [
     .notEmpty()
     .withMessage('SubCategory name is required')
     .isLength({ max: 32, min: 3 })
-    .withMessage('SubCategory name length must be 3-32 chars'),
+    .withMessage('SubCategory name length must be 3-32 chars')
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
   check('category')
     .notEmpty()
     .withMessage('subCategory must be belong to category')

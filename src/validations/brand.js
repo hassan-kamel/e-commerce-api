@@ -1,5 +1,6 @@
 import { check } from 'express-validator';
 import validation from '../middleware/validate.js';
+import slugify from 'slugify';
 
 export const getBrandValidator = [
   check('id').isMongoId().withMessage('Invalid brand id format'),
@@ -11,7 +12,12 @@ export const createBrandValidator = [
     .notEmpty()
     .withMessage('Brand name is required')
     .isLength({ max: 32, min: 3 })
-    .withMessage('Brand name length must be 3-32 chars'),
+    .withMessage('Brand name length must be 3-32 chars')
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
+
   validation,
 ];
 
@@ -21,7 +27,12 @@ export const updateBrandValidator = [
     .notEmpty()
     .withMessage('Brand name is required')
     .isLength({ max: 32, min: 3 })
-    .withMessage('Brand name length must be 3-32 chars'),
+    .withMessage('Brand name length must be 3-32 chars')
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
+
   validation,
 ];
 
