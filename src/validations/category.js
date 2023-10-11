@@ -23,6 +23,7 @@ export const createCategoryValidator = [
 export const updateCategoryValidator = [
   check('id').isMongoId().withMessage('Invalid category id format'),
   check('name')
+    .optional()
     .notEmpty()
     .withMessage('Category name is required')
     .isLength({ max: 32, min: 3 })

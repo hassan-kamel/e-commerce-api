@@ -28,6 +28,7 @@ export const createSubCategoryValidator = [
 export const updateSubCategoryValidator = [
   check('id').isMongoId().withMessage('Invalid subCategory id format'),
   check('name')
+    .optional()
     .notEmpty()
     .withMessage('SubCategory name is required')
     .isLength({ max: 32, min: 3 })
