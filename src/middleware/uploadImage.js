@@ -27,9 +27,10 @@ export const uploadSingleImage = (fieldName) => upload.single(fieldName);
 
 export const uploadMixOfImages = (arrayOfFields) => upload.fields(arrayOfFields);
 
-export const addImageNameToRequestBodyObject = () => (req, res, next) => {
+export const addImageNameToRequestBodyObject = (field) => (req, res, next) => {
   if (req.file) {
-    req.body.image = req.file.path;
+    if (field) req.body[field] = req.file.path;
+    else req.body.image = req.file.path;
   }
   if (req.files) {
     req.body.images = req.files.images.map((file) => file.path);
