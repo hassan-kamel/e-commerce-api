@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import categoryRouter from './routes/category.js';
 import supCategoryRouter from './routes/subCategory.js';
@@ -18,6 +19,7 @@ connection();
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Router

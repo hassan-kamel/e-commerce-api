@@ -20,9 +20,9 @@ export const signup = asyncHandler(async (req, res, next) => {
   });
 
   // 2- Generate token
-  const token = createToken(user._id);
+  const token = createToken({ user });
 
-  res.status(201).json({ data: user, token });
+  res.status(201).json({ userID: user._id, token });
 });
 
 export const login = asyncHandler(async (req, res, next) => {
@@ -34,12 +34,12 @@ export const login = asyncHandler(async (req, res, next) => {
     return next(new ApiError('Incorrect email or password', 401));
   }
   // 3) generate token
-  const token = createToken(user._id);
+  const token = createToken({ user });
 
   // Delete password from response
   delete user._doc.password;
   // 4) send response to client side
-  res.status(200).json({ data: user, token });
+  res.status(200).json({ userID: user._id, token });
 });
 
 export const protect = asyncHandler(async (req, res, next) => {
