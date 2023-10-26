@@ -15,6 +15,7 @@ import {
   updateCategoryValidator,
 } from '../validations/category.js';
 import { addImageNameToRequestBodyObject, uploadSingleImage } from '../middleware/uploadImage.js';
+import { allowedTo, protect } from '../services/auth.js';
 
 const router = Router();
 
@@ -24,6 +25,8 @@ router
   .route('/')
   .get(getCategories)
   .post(
+    protect,
+    allowedTo('admin'),
     uploadSingleImage('image'),
     addImageNameToRequestBodyObject(),
     createCategoryValidator,
@@ -33,11 +36,13 @@ router
   .route('/:id')
   .get(getCategoryValidator, getCategory)
   .put(
+    protect,
+    allowedTo('admin'),
     uploadSingleImage('image'),
     addImageNameToRequestBodyObject(),
     updateCategoryValidator,
     updateCategory,
   )
-  .delete(deleteCategoryValidator, deleteCategory);
+  .delete(protect, allowedTo('admin'), deleteCategoryValidator, deleteCategory);
 
 export default router;

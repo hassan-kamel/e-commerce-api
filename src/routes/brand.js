@@ -7,6 +7,7 @@ import {
   updateBrandValidator,
 } from '../validations/brand.js';
 import { addImageNameToRequestBodyObject, uploadSingleImage } from '../middleware/uploadImage.js';
+import { allowedTo, protect } from '../services/auth.js';
 
 const router = Router();
 
@@ -14,6 +15,8 @@ router
   .route('/')
   .get(getBrands)
   .post(
+    protect,
+    allowedTo('admin'),
     uploadSingleImage('image'),
     addImageNameToRequestBodyObject(),
     createBrandValidator,
@@ -23,11 +26,13 @@ router
   .route('/:id')
   .get(getBrandValidator, getBrand)
   .put(
+    protect,
+    allowedTo('admin'),
     uploadSingleImage('image'),
     addImageNameToRequestBodyObject(),
     updateBrandValidator,
     updateBrand,
   )
-  .delete(deleteBrandValidator, deleteBrand);
+  .delete(protect, allowedTo('admin'), deleteBrandValidator, deleteBrand);
 
 export default router;

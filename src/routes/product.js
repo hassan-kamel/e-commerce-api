@@ -14,6 +14,7 @@ import {
   updateProductValidator,
 } from '../validations/product.js';
 import { uploadMixOfImages, addImageNameToRequestBodyObject } from '../middleware/uploadImage.js';
+import { allowedTo, protect } from '../services/auth.js';
 
 const router = Router();
 
@@ -21,6 +22,8 @@ router
   .route('/')
   .get(getProducts)
   .post(
+    protect,
+    allowedTo('admin'),
     uploadMixOfImages([
       {
         name: 'imageCover',
@@ -39,6 +42,8 @@ router
   .route('/:id')
   .get(getProductValidator, getProduct)
   .put(
+    protect,
+    allowedTo('admin'),
     uploadMixOfImages([
       {
         name: 'imageCover',
@@ -53,6 +58,6 @@ router
     updateProductValidator,
     updateProduct,
   )
-  .delete(deleteProductValidator, deleteProduct);
+  .delete(protect, allowedTo('admin'), deleteProductValidator, deleteProduct);
 
 export default router;
